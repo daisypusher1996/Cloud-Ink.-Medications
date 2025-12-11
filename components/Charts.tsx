@@ -125,6 +125,9 @@ export const SupplierAssociationChart: React.FC<{ data: DashboardData['associati
 
 // --- NEW RUBRIC CHART 1: Inventory Distribution (Pie Chart) ---
 export const InventoryDistributionChart: React.FC<{ data: DashboardData['distributionData'] }> = ({ data }) => {
+    // Calculate total value to compute percentages
+    const totalValue = data.reduce((sum, item) => sum + item.value, 0);
+
     return (
         <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
              <div className="flex items-center justify-between mb-6">
@@ -149,7 +152,13 @@ export const InventoryDistributionChart: React.FC<{ data: DashboardData['distrib
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Tooltip formatter={(value: number) => `₱${value.toLocaleString()}`} contentStyle={{ borderRadius: '8px' }} />
+                        <Tooltip 
+                            formatter={(value: number) => {
+                                const percent = totalValue > 0 ? ((value / totalValue) * 100).toFixed(1) : 0;
+                                return [`₱${value.toLocaleString()} (${percent}%)`, 'Value'];
+                            }} 
+                            contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} 
+                        />
                         <Legend layout="vertical" verticalAlign="middle" align="right" wrapperStyle={{ fontSize: '12px' }}/>
                     </PieChart>
                 </ResponsiveContainer>
