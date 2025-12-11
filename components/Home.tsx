@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ArrowRight, Activity, ShieldCheck, Zap, Send, PhoneCall, MessageSquareText, ChevronUp, Pill } from 'lucide-react';
+import { ArrowRight, Activity, ShieldCheck, Zap, Send, PhoneCall, MessageSquareText, Pill } from 'lucide-react';
 import { View } from '../types';
 
 interface HomeProps {
@@ -8,12 +7,8 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ setView }) => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen animate-enter">
       
       {/* Hero Section */}
       <div className="relative bg-slate-900 overflow-hidden">
@@ -21,8 +16,8 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80')] bg-cover bg-center mix-blend-overlay"></div>
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 flex flex-col items-center text-center">
-          <div className="inline-flex items-center px-4 py-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 backdrop-blur-sm mb-8">
-            <span className="flex h-2 w-2 rounded-full bg-indigo-400 mr-2 animate-pulse"></span>
+          <div className="inline-flex items-center px-4 py-2 rounded-full border border-indigo-400/30 bg-indigo-500/10 backdrop-blur-sm mb-8 animate-pulse">
+            <span className="flex h-2 w-2 rounded-full bg-indigo-400 mr-2"></span>
             <span className="text-sm font-medium text-indigo-100">Next-Gen Hospital Management</span>
           </div>
           
@@ -41,14 +36,14 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
           <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
             <button 
               onClick={() => setView('dashboard')}
-              className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-indigo-500/30 transition-all duration-200"
+              className="inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-bold rounded-xl text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-indigo-500/30 transition-all duration-200 active:scale-95 transform"
             >
               Access Dashboard
               <ArrowRight className="ml-2 h-5 w-5" />
             </button>
             <a 
               href="#support"
-              className="inline-flex items-center justify-center px-8 py-4 border border-slate-600 text-base font-medium rounded-xl text-white bg-slate-800/50 hover:bg-slate-800 backdrop-blur-sm transition-all duration-200"
+              className="inline-flex items-center justify-center px-8 py-4 border border-slate-600 text-base font-medium rounded-xl text-white bg-slate-800/50 hover:bg-slate-800 backdrop-blur-sm transition-all duration-200 active:scale-95 transform"
             >
               Contact Support
             </a>
@@ -60,8 +55,8 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
         <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
       </div>
 
-      {/* Features Grid */}
-      <div className="py-20 bg-slate-50">
+      {/* Features Grid - Removed bg-slate-50 to let body pattern show */}
+      <div className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Our Capabilities</h2>
@@ -71,7 +66,7 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="bg-indigo-100 w-12 h-12 rounded-lg flex items-center justify-center mb-6">
                 <Activity className="h-6 w-6 text-indigo-600" />
               </div>
@@ -81,7 +76,7 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center mb-6">
                 <ShieldCheck className="h-6 w-6 text-purple-600" />
               </div>
@@ -91,7 +86,7 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+            <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
               <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center mb-6">
                 <Zap className="h-6 w-6 text-blue-600" />
               </div>
@@ -116,7 +111,7 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Phone Support Card */}
-            <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 flex flex-col items-center text-center hover:bg-slate-800 transition-colors duration-300 group">
+            <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 flex flex-col items-center text-center hover:bg-slate-800 transition-all duration-300 group cursor-pointer active:scale-95">
               <div className="h-16 w-16 rounded-2xl bg-indigo-600 flex items-center justify-center mb-6 shadow-lg shadow-indigo-900/20 group-hover:scale-105 transition-transform">
                 <PhoneCall className="h-8 w-8 text-white" />
               </div>
@@ -130,7 +125,7 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
             </div>
 
             {/* Email Support Card */}
-            <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 flex flex-col items-center text-center hover:bg-slate-800 transition-colors duration-300 group">
+            <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 flex flex-col items-center text-center hover:bg-slate-800 transition-all duration-300 group cursor-pointer active:scale-95">
               <div className="h-16 w-16 rounded-2xl bg-violet-600 flex items-center justify-center mb-6 shadow-lg shadow-violet-900/20 group-hover:scale-105 transition-transform">
                 <Send className="h-8 w-8 text-white ml-1" />
               </div>
@@ -144,7 +139,7 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
             </div>
 
             {/* Live Chat Card */}
-            <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 flex flex-col items-center text-center hover:bg-slate-800 transition-colors duration-300 group">
+            <div className="bg-slate-800/50 rounded-2xl p-8 border border-slate-700/50 flex flex-col items-center text-center hover:bg-slate-800 transition-all duration-300 group cursor-pointer active:scale-95">
               <div className="h-16 w-16 rounded-2xl bg-teal-500 flex items-center justify-center mb-6 shadow-lg shadow-teal-900/20 group-hover:scale-105 transition-transform">
                 <MessageSquareText className="h-8 w-8 text-white" />
               </div>
@@ -174,14 +169,6 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
             <p className="text-slate-500 text-sm text-center">
                 &copy; {new Date().getFullYear()} Cloud Ink Co. All rights reserved. HIPAA Compliant Healthcare Solutions.
             </p>
-
-            <button 
-                onClick={scrollToTop}
-                className="absolute right-8 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg transition-colors hidden md:flex"
-                aria-label="Back to top"
-            >
-                <ChevronUp className="h-6 w-6" />
-            </button>
         </div>
       </footer>
 
@@ -190,4 +177,3 @@ const Home: React.FC<HomeProps> = ({ setView }) => {
 };
 
 export default Home;
-    

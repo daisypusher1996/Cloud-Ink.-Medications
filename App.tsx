@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import StatCard from './components/StatCard';
@@ -6,16 +5,18 @@ import { OrdersChart, StockChart, SupplierAssociationChart, InventoryDistributio
 import ClusteringAnalysis from './components/ClusteringAnalysis';
 import InsightsSection from './components/InsightsSection';
 import Home from './components/Home';
+import BackToTopButton from './components/BackToTopButton';
 import { RecentOrdersTable, InventoryTable } from './components/DashboardTables';
 import { fetchDashboardData } from './services/supabaseClient';
 import { DashboardData, View } from './types';
-import { AlertCircle, Database, BarChart2, PieChart as PieIcon, Activity } from 'lucide-react';
+import { AlertCircle, Database, BarChart2, PieChart as PieIcon, Activity, Pill } from 'lucide-react';
 
 const App: React.FC = () => {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentView, setCurrentView] = useState<View>('home'); // Default to Home
+  const [currentView, setCurrentView] = useState<View>('home');
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
   useEffect(() => {
     const loadData = async () => {
@@ -33,12 +34,28 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
+  const handleViewChange = (view: View) => {
+    if (view === currentView) return;
+    setIsTransitioning(true);
+    // Simulate loading delay for smooth transition
+    setTimeout(() => {
+        setCurrentView(view);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+            setIsTransitioning(false);
+        }, 100);
+    }, 800);
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center">
-            <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4"></div>
-            <p className="text-slate-500 font-medium">Connecting to Cloud Ink Co. Database...</p>
+            <div className="mb-6 relative">
+                 <div className="absolute inset-0 bg-indigo-500 blur-xl opacity-20 rounded-full"></div>
+                 <Pill className="w-16 h-16 text-indigo-600 animate-spin" />
+            </div>
+            <p className="text-slate-500 font-medium tracking-wide animate-pulse">Initializing Cloud Ink Co...</p>
         </div>
       </div>
     );
@@ -48,14 +65,26 @@ const App: React.FC = () => {
   const isEmptyData = data && data.rawMedications.length === 0;
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <Navbar currentView={currentView} setView={setCurrentView} />
+    <div className="min-h-screen relative">
+      {/* Loading Transition Overlay */}
+      <div className={`fixed inset-0 z-[100] bg-indigo-200/95 backdrop-blur-md flex flex-col items-center justify-center transition-opacity duration-300 pointer-events-none ${isTransitioning ? 'opacity-100 pointer-events-auto' : 'opacity-0'}`}>
+           <div className="relative mb-6">
+              <div className="absolute inset-0 bg-indigo-500 blur-xl opacity-20 rounded-full"></div>
+              <Pill className="w-16 h-16 text-indigo-600 animate-spin" />
+           </div>
+           <p className="mt-2 text-indigo-900 text-sm font-medium animate-pulse tracking-widest uppercase">Loading View</p>
+      </div>
+
+      <Navbar currentView={currentView} setView={handleViewChange} />
 
       {/* Render Home Page specifically when view is home */}
       {currentView === 'home' ? (
-        <Home setView={setCurrentView} />
+        <Home setView={handleViewChange} />
       ) : (
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20">
+        <main 
+          key={currentView} // Key prop forces re-render/animation on view change
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-20 animate-enter relative z-10"
+        >
           
           {/* Header Section / Hero Banner - Only for Dashboard View */}
           {currentView === 'dashboard' ? (
@@ -68,7 +97,7 @@ const App: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/90 via-purple-900/40 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-6 md:p-10 w-full">
                       <div className="flex items-center space-x-2 mb-3">
-                          <span className="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Cloud Ink Co.</span>
+                          <span className="bg-indigo-600/90 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm border border-indigo-400/20">Cloud Ink Co.</span>
                       </div>
                       <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight drop-shadow-sm">Medications Dashboard</h1>
                       <p className="text-indigo-100 max-w-2xl text-sm md:text-lg font-medium opacity-95 leading-relaxed drop-shadow-sm">
@@ -90,17 +119,17 @@ const App: React.FC = () => {
           )}
   
           {error && (
-              <div className="mb-8 bg-red-50 border border-red-200 rounded-xl p-6 flex flex-col text-red-800">
+              <div className="mb-8 bg-red-50/80 backdrop-blur-sm border border-red-200 rounded-xl p-6 flex flex-col text-red-800">
                   <div className="flex items-center mb-3">
                       <AlertCircle className="h-6 w-6 mr-2 text-red-600" />
                       <h3 className="text-lg font-bold">Database Connection Failed</h3>
                   </div>
-                  <p className="font-mono text-sm bg-white p-3 rounded border border-red-100 mb-4">{error}</p>
+                  <p className="font-mono text-sm bg-white/50 p-3 rounded border border-red-100 mb-4">{error}</p>
               </div>
           )}
   
           {isEmptyData && !error && (
-               <div className="mb-8 bg-amber-50 border border-amber-200 rounded-xl p-6 flex flex-col text-amber-900">
+               <div className="mb-8 bg-amber-50/80 backdrop-blur-sm border border-amber-200 rounded-xl p-6 flex flex-col text-amber-900">
                   <div className="flex items-center mb-3">
                       <Database className="h-6 w-6 mr-2 text-amber-600" />
                       <h3 className="text-lg font-bold">Connected, but No Data Found</h3>
@@ -187,7 +216,7 @@ const App: React.FC = () => {
           )}
 
           {/* Footer inside the main app view */}
-          <footer className="bg-white border-t border-slate-200 py-8 mt-12 rounded-xl">
+          <footer className="bg-white/50 backdrop-blur-md border-t border-slate-200 py-8 mt-12 rounded-xl">
             <div className="max-w-7xl mx-auto px-4 text-center text-slate-400 text-sm">
                 <p>&copy; {new Date().getFullYear()} Cloud Ink Co. Medications Department. All rights reserved.</p>
                 <div className="mt-2 flex justify-center space-x-4">
@@ -201,6 +230,9 @@ const App: React.FC = () => {
           </footer>
         </main>
       )}
+
+      {/* Global Back to Top Button */}
+      <BackToTopButton />
     </div>
   );
 };

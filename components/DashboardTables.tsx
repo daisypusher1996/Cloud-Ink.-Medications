@@ -22,8 +22,8 @@ export const RecentOrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden flex flex-col h-full mt-4">
-      <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+    <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-100/50 overflow-hidden flex flex-col h-full mt-4">
+      <div className="px-6 py-5 border-b border-slate-100/50 flex items-center justify-between">
         <div className="flex items-center">
             <Package className="h-5 w-5 text-blue-600 mr-2" />
             <h3 className="text-lg font-semibold text-slate-900">Purchase Orders Registry</h3>
@@ -32,7 +32,7 @@ export const RecentOrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
       </div>
       <div className="overflow-x-auto flex-grow">
         <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-slate-50">
+          <thead className="bg-slate-50/50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Order ID</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Medication</th>
@@ -42,14 +42,14 @@ export const RecentOrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-slate-200">
+          <tbody className="bg-white/0 divide-y divide-slate-200">
             {orders.length === 0 ? (
                 <tr>
                     <td colSpan={6} className="px-6 py-4 text-center text-sm text-slate-500">No recent orders found.</td>
                 </tr>
             ) : (
                 orders.map((order) => (
-                <tr key={order.purchase_order_id} className="hover:bg-slate-50 transition-colors">
+                <tr key={order.purchase_order_id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">#{order.purchase_order_id}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">{order.medication_name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">{order.supplier}</td>
@@ -68,8 +68,8 @@ export const RecentOrdersTable: React.FC<OrdersTableProps> = ({ orders }) => {
 
 export const InventoryTable: React.FC<{ items: Medication[] }> = ({ items }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden flex flex-col mt-4">
-      <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+    <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-sm border border-slate-100/50 overflow-hidden flex flex-col mt-4">
+      <div className="px-6 py-5 border-b border-slate-100/50 flex items-center justify-between">
         <div className="flex items-center">
             <Database className="h-5 w-5 text-indigo-600 mr-2" />
             <h3 className="text-lg font-semibold text-slate-900">Master Medication Database</h3>
@@ -78,7 +78,7 @@ export const InventoryTable: React.FC<{ items: Medication[] }> = ({ items }) => 
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-slate-50">
+          <thead className="bg-slate-50/50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Medication Name</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Generic Name</th>
@@ -89,14 +89,14 @@ export const InventoryTable: React.FC<{ items: Medication[] }> = ({ items }) => 
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Stock</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-slate-200">
+          <tbody className="bg-white/0 divide-y divide-slate-200">
             {items.length === 0 ? (
                 <tr>
                     <td colSpan={7} className="px-6 py-8 text-center text-sm text-slate-500">No inventory data available.</td>
                 </tr>
             ) : (
                 items.map((item) => (
-                <tr key={item.medication_id} className="hover:bg-slate-50 transition-colors">
+                <tr key={item.medication_id} className="hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm font-medium text-slate-900">{item.medication_name}</div>
                         <div className="text-xs text-slate-400">{item.description.substring(0, 30)}...</div>

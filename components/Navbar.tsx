@@ -10,7 +10,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ currentView, setView }) => {
   const getLinkClass = (view: View) => {
-    const baseClass = "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150 cursor-pointer flex items-center";
+    const baseClass = "px-3 py-2 rounded-md text-sm font-medium transition-all duration-150 cursor-pointer flex items-center active:scale-95";
     return currentView === view 
       ? `${baseClass} bg-indigo-600 text-white shadow-lg shadow-indigo-500/30` 
       : `${baseClass} text-slate-300 hover:text-white hover:bg-slate-800`;
@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
-            <div className="flex-shrink-0 flex items-center cursor-pointer" onClick={() => setView('home')}>
+            <div className="flex-shrink-0 flex items-center cursor-pointer active:scale-95 transition-transform" onClick={() => setView('home')}>
               <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-2 rounded-lg mr-2 shadow-lg shadow-indigo-500/20">
                  <Pill className="h-6 w-6 text-white" />
               </div>
@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView }) => {
           </div>
           
           <div className="-mr-2 flex items-center sm:hidden">
-            <button type="button" className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none">
+            <button type="button" className="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none active:scale-95 transition-transform">
               <span className="sr-only">Open main menu</span>
               <Menu className="h-6 w-6" />
             </button>
@@ -62,10 +62,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentView, setView }) => {
       {/* Mobile menu (simplified) */}
       <div className="sm:hidden border-t border-slate-800 bg-slate-900">
          <div className="grid grid-cols-4 gap-1 p-2">
-             <button onClick={() => setView('home')} className={`text-xs py-2 text-center rounded ${currentView === 'home' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Home</button>
-             <button onClick={() => setView('dashboard')} className={`text-xs py-2 text-center rounded ${currentView === 'dashboard' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Dashboard</button>
-             <button onClick={() => setView('inventory')} className={`text-xs py-2 text-center rounded ${currentView === 'inventory' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Inventory</button>
-             <button onClick={() => setView('orders')} className={`text-xs py-2 text-center rounded ${currentView === 'orders' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Orders</button>
+             <button onClick={() => setView('home')} className={`text-xs py-2 text-center rounded active:scale-95 transition-transform ${currentView === 'home' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Home</button>
+             <button onClick={() => setView('dashboard')} className={`text-xs py-2 text-center rounded active:scale-95 transition-transform ${currentView === 'dashboard' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Dashboard</button>
+             <button onClick={() => setView('inventory')} className={`text-xs py-2 text-center rounded active:scale-95 transition-transform ${currentView === 'inventory' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Inventory</button>
+             <button onClick={() => setView('orders')} className={`text-xs py-2 text-center rounded active:scale-95 transition-transform ${currentView === 'orders' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>Orders</button>
          </div>
       </div>
     </nav>

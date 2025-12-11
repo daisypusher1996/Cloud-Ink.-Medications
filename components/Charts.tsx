@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   AreaChart,
@@ -35,7 +34,7 @@ const COLORS = [
 
 export const OrdersChart: React.FC<{ data: DashboardData['orderTrends'] }> = ({ data }) => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full">
+    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
       <div className="flex items-center justify-between mb-6">
         <div>
            <h3 className="text-lg font-semibold text-slate-900">Purchase Order Volume</h3>
@@ -66,7 +65,7 @@ export const OrdersChart: React.FC<{ data: DashboardData['orderTrends'] }> = ({ 
 
 export const StockChart: React.FC<{ data: DashboardData['inventoryLevels'] }> = ({ data }) => {
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full">
+    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
       <div className="flex items-center justify-between mb-6">
          <div>
             <h3 className="text-lg font-semibold text-slate-900">Critical Stock Levels</h3>
@@ -96,7 +95,7 @@ export const SupplierAssociationChart: React.FC<{ data: DashboardData['associati
   const chartHeight = Math.max(data.length * 40, 320);
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full flex flex-col">
+    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full flex flex-col">
       <div className="flex items-center justify-between mb-6 flex-shrink-0">
          <div>
             <h3 className="text-lg font-semibold text-slate-900">Supplier Rules</h3>
@@ -127,7 +126,7 @@ export const SupplierAssociationChart: React.FC<{ data: DashboardData['associati
 // --- NEW RUBRIC CHART 1: Inventory Distribution (Pie Chart) ---
 export const InventoryDistributionChart: React.FC<{ data: DashboardData['distributionData'] }> = ({ data }) => {
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full">
+        <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
              <div className="flex items-center justify-between mb-6">
                 <div>
                     <h3 className="text-lg font-semibold text-slate-900">Capital Allocation</h3>
@@ -162,7 +161,7 @@ export const InventoryDistributionChart: React.FC<{ data: DashboardData['distrib
 // --- NEW RUBRIC CHART 2: Pareto Chart (ABC Analysis) ---
 export const ParetoChart: React.FC<{ data: DashboardData['paretoData'] }> = ({ data }) => {
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full">
+        <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
              <div className="flex items-center justify-between mb-6">
                 <div>
                     <h3 className="text-lg font-semibold text-slate-900">ABC Analysis (Pareto)</h3>
@@ -194,7 +193,7 @@ export const LeadTimeChart: React.FC<{ data: DashboardData['leadTimeData'] }> = 
     const chartHeight = Math.max(data.length * 40, 320);
 
     return (
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full flex flex-col">
+        <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full flex flex-col">
              <div className="flex items-center justify-between mb-6 flex-shrink-0">
                 <div>
                     <h3 className="text-lg font-semibold text-slate-900">Supplier Lead Times</h3>

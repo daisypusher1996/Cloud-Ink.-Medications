@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Users, Activity, Bed, Clock, Pill, ClipboardList, Database, AlertTriangle, Truck, Tag, Factory } from 'lucide-react';
 import { HospitalStat } from '../types';
@@ -71,9 +70,9 @@ const StatCard: React.FC<StatCardProps> = ({ stat }) => {
       ThemeIcon = Activity;
   }
 
-  // Smaller compact tile design
+  // Smaller compact tile design with active click animation and glassmorphism
   return (
-    <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-between text-center hover:shadow-md transition-shadow group">
+    <div className="bg-white/80 backdrop-blur-sm p-3 rounded-lg shadow-sm border border-slate-100/50 flex flex-col items-center justify-between text-center hover:shadow-md transition-all duration-200 group transform active:scale-95 cursor-pointer">
       <div className="flex items-center justify-between w-full mb-2">
          <h3 className="text-slate-500 font-medium text-[10px] uppercase tracking-wider truncate group-hover:text-indigo-600 transition-colors">{stat.label}</h3>
          <div className={`${themeClass} p-1.5 rounded-md`}>

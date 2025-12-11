@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Sparkles, RefreshCw } from 'lucide-react';
 import { generateHospitalInsights } from '../services/geminiService';
@@ -35,7 +36,7 @@ const GeminiInsight: React.FC<GeminiInsightProps> = ({ data }) => {
           {!generated && !loading && (
              <button 
                onClick={handleGenerate}
-               className="bg-white/20 hover:bg-white/30 text-white text-sm py-1.5 px-4 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20 font-medium"
+               className="bg-white/20 hover:bg-white/30 text-white text-sm py-1.5 px-4 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20 font-medium active:scale-95 transform"
              >
                Generate Analysis
              </button>
@@ -43,7 +44,7 @@ const GeminiInsight: React.FC<GeminiInsightProps> = ({ data }) => {
            {generated && !loading && (
              <button 
                onClick={handleGenerate}
-               className="text-white/70 hover:text-white p-1 rounded-full transition-colors"
+               className="text-white/70 hover:text-white p-1 rounded-full transition-colors active:scale-90 transform"
                title="Regenerate"
              >
                <RefreshCw className="h-4 w-4" />
