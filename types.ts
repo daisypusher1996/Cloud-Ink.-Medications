@@ -1,6 +1,6 @@
 
 
-export type View = 'dashboard' | 'inventory' | 'orders';
+export type View = 'home' | 'dashboard' | 'inventory' | 'orders';
 
 export interface Medication {
   medication_id: number;

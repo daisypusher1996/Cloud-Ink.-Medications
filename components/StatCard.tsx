@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Users, Activity, Bed, Clock, Pill, ClipboardList, Database, AlertTriangle, Truck, Tag, Factory } from 'lucide-react';
 import { HospitalStat } from '../types';
@@ -14,11 +15,13 @@ const StatCard: React.FC<StatCardProps> = ({ stat }) => {
   switch (stat.iconName) {
     case 'users': 
       ThemeIcon = Users; 
-      themeClass = "bg-blue-100 text-blue-600";
+      themeClass = "bg-indigo-100 text-indigo-600";
+      badgeClass = "bg-indigo-50 text-indigo-700";
       break;
     case 'activity': 
       ThemeIcon = Activity; 
-      themeClass = "bg-emerald-100 text-emerald-600";
+      themeClass = "bg-violet-100 text-violet-600";
+      badgeClass = "bg-violet-50 text-violet-700";
       break;
     case 'bed': 
       ThemeIcon = Bed; 
@@ -32,15 +35,17 @@ const StatCard: React.FC<StatCardProps> = ({ stat }) => {
     case 'pill': 
       ThemeIcon = Pill; 
       themeClass = "bg-blue-100 text-blue-600";
+      badgeClass = "bg-blue-50 text-blue-700";
       break;
     case 'clipboard': 
       ThemeIcon = ClipboardList; 
-      themeClass = "bg-green-100 text-green-600";
-      badgeClass = "bg-green-50 text-green-700";
+      themeClass = "bg-purple-100 text-purple-600";
+      badgeClass = "bg-purple-50 text-purple-700";
       break;
     case 'database': 
       ThemeIcon = Database; 
       themeClass = "bg-indigo-100 text-indigo-600";
+      badgeClass = "bg-indigo-50 text-indigo-700";
       break;
     case 'alert': 
       ThemeIcon = AlertTriangle; 
@@ -49,18 +54,18 @@ const StatCard: React.FC<StatCardProps> = ({ stat }) => {
       break;
     case 'truck': 
       ThemeIcon = Truck; 
-      themeClass = "bg-purple-100 text-purple-600";
-      badgeClass = "bg-purple-50 text-purple-700";
+      themeClass = "bg-fuchsia-100 text-fuchsia-600";
+      badgeClass = "bg-fuchsia-50 text-fuchsia-700";
       break;
     case 'tag': 
       ThemeIcon = Tag; 
-      themeClass = "bg-orange-100 text-orange-600";
-      badgeClass = "bg-orange-50 text-orange-700";
+      themeClass = "bg-violet-100 text-violet-600";
+      badgeClass = "bg-violet-50 text-violet-700";
       break;
     case 'factory': 
       ThemeIcon = Factory; 
-      themeClass = "bg-slate-200 text-slate-700"; 
-      badgeClass = "bg-slate-100 text-slate-700";
+      themeClass = "bg-slate-100 text-slate-600"; 
+      badgeClass = "bg-slate-50 text-slate-700";
       break;
     default: 
       ThemeIcon = Activity;
@@ -68,9 +73,9 @@ const StatCard: React.FC<StatCardProps> = ({ stat }) => {
 
   // Smaller compact tile design
   return (
-    <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-between text-center hover:shadow-md transition-shadow">
+    <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-between text-center hover:shadow-md transition-shadow group">
       <div className="flex items-center justify-between w-full mb-2">
-         <h3 className="text-slate-500 font-medium text-[10px] uppercase tracking-wider truncate">{stat.label}</h3>
+         <h3 className="text-slate-500 font-medium text-[10px] uppercase tracking-wider truncate group-hover:text-indigo-600 transition-colors">{stat.label}</h3>
          <div className={`${themeClass} p-1.5 rounded-md`}>
             <ThemeIcon className="h-3.5 w-3.5" />
          </div>

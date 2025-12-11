@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   AreaChart,
@@ -19,12 +20,17 @@ import {
 } from 'recharts';
 import { DashboardData } from '../types';
 
-// Extended color palette for unique items
+// Distinct Color Palette matching the reference image for the Pie Chart
 const COLORS = [
-  '#2563eb', '#db2777', '#d97706', '#059669', '#7c3aed', 
-  '#dc2626', '#0891b2', '#4f46e5', '#be123c', '#b45309',
-  '#15803d', '#6d28d9', '#b91c1c', '#0e7490', '#4338ca',
-  '#be185d', '#a16207', '#166534', '#5b21b6', '#991b1b'
+  '#2563eb', // Blue (Tablet)
+  '#9333ea', // Purple (Syrup)
+  '#06b6d4', // Cyan/Teal (Ointment)
+  '#ef4444', // Red (Injection)
+  '#d97706', // Amber/Orange (Inhaler)
+  '#10b981', // Emerald Green (Cream)
+  '#ec4899', // Pink (Capsule)
+  '#8b5cf6', // Violet
+  '#f59e0b', // Yellow
 ];
 
 export const OrdersChart: React.FC<{ data: DashboardData['orderTrends'] }> = ({ data }) => {
@@ -75,6 +81,7 @@ export const StockChart: React.FC<{ data: DashboardData['inventoryLevels'] }> = 
             <YAxis dataKey="name" type="category" width={100} tick={{fill: '#475569', fontSize: 11, fontWeight: 500}} axisLine={false} tickLine={false} />
             <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
             <Legend />
+            {/* Restored Green Bar Color */}
             <Bar dataKey="stock" name="Current Stock" fill="#10b981" radius={[0, 4, 4, 0]} barSize={20} />
             <Line dataKey="reorderLevel" name="Reorder Point" stroke="#ef4444" strokeWidth={2} type="monotone" dot={{r: 4}} />
           </ComposedChart>
@@ -136,7 +143,7 @@ export const InventoryDistributionChart: React.FC<{ data: DashboardData['distrib
                             cy="50%"
                             innerRadius={60}
                             outerRadius={100}
-                            paddingAngle={5}
+                            paddingAngle={2}
                             dataKey="value"
                         >
                             {data.map((entry, index) => (
@@ -171,7 +178,7 @@ export const ParetoChart: React.FC<{ data: DashboardData['paretoData'] }> = ({ d
                         <YAxis yAxisId="right" orientation="right" label={{ value: 'Cum. %', angle: 90, position: 'insideRight' }} />
                         <Tooltip formatter={(value: number, name: string) => [name === 'Stock Value ($)' ? `₱${value.toLocaleString()}` : value, name === 'Stock Value ($)' ? 'Stock Value (₱)' : name]} />
                         <Legend />
-                        <Bar yAxisId="left" dataKey="value" barSize={20} fill="#413ea0" name="Stock Value (₱)" />
+                        <Bar yAxisId="left" dataKey="value" barSize={20} fill="#8884d8" name="Stock Value (₱)" />
                         <Line yAxisId="right" type="monotone" dataKey="cumulativePercentage" stroke="#ff7300" name="Cumulative %" dot={false} strokeWidth={2} />
                         <ReferenceLine yAxisId="right" y={80} label="80% Cutoff" stroke="red" strokeDasharray="3 3" />
                     </ComposedChart>
@@ -209,9 +216,9 @@ export const LeadTimeChart: React.FC<{ data: DashboardData['leadTimeData'] }> = 
                                 interval={0} 
                              />
                              <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ borderRadius: '8px' }} />
-                             <Bar dataKey="avgDays" fill="#f97316" radius={[0, 4, 4, 0]} name="Avg Days" barSize={12}>
+                             <Bar dataKey="avgDays" fill="#8884d8" radius={[0, 4, 4, 0]} name="Avg Days" barSize={12}>
                                 {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.avgDays > 14 ? '#ef4444' : '#f97316'} />
+                                    <Cell key={`cell-${index}`} fill={entry.avgDays > 14 ? '#ff4d4f' : '#8884d8'} />
                                 ))}
                              </Bar>
                         </BarChart>
