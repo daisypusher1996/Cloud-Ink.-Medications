@@ -66,27 +66,24 @@ const StatCard: React.FC<StatCardProps> = ({ stat }) => {
       ThemeIcon = Activity;
   }
 
-  const badgeText = stat.change !== 0 
-    ? `${stat.change}`
-    : `-`;
-
+  // Smaller compact tile design
   return (
-    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow aspect-square h-full">
-      <div className="flex justify-between items-start">
-         <h3 className="text-slate-500 font-medium text-xs uppercase tracking-wider leading-tight flex-1 mr-2">{stat.label}</h3>
-         <div className={`${themeClass} p-2 rounded-lg flex-shrink-0`}>
-            <ThemeIcon className="h-4 w-4" />
+    <div className="bg-white p-3 rounded-lg shadow-sm border border-slate-100 flex flex-col items-center justify-between text-center hover:shadow-md transition-shadow">
+      <div className="flex items-center justify-between w-full mb-2">
+         <h3 className="text-slate-500 font-medium text-[10px] uppercase tracking-wider truncate">{stat.label}</h3>
+         <div className={`${themeClass} p-1.5 rounded-md`}>
+            <ThemeIcon className="h-3.5 w-3.5" />
          </div>
       </div>
       
-      <div className="mt-2 mb-1">
-        <div className="text-3xl font-bold text-slate-900 tracking-tight leading-none">
+      <div className="my-1">
+        <div className="text-2xl font-bold text-slate-900 tracking-tight leading-none">
           {typeof stat.value === 'number' && stat.value > 1000 ? `${(stat.value / 1000).toFixed(1)}k` : stat.value}
         </div>
       </div>
 
-      <div className="mt-auto pt-2">
-        <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide ${badgeClass} w-full text-center truncate`}>
+      <div className="w-full mt-2">
+        <span className={`block px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide ${badgeClass} w-full truncate`}>
           {stat.iconName === 'activity' ? 'PHP' : (stat.change === 0 ? 'Active' : `${stat.change} Items`)}
         </span>
       </div>

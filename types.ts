@@ -126,7 +126,6 @@ export interface Insight {
   metric: string;
 }
 
-// Rubric: Strategic Plan Type
 export interface StrategicPlan {
   severity: 'Critical' | 'Moderate' | 'Low';
   problem: string;

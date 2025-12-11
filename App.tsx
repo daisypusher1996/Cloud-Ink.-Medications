@@ -98,13 +98,13 @@ const App: React.FC = () => {
                         {/* RUBRIC: Data Mined Insights (30 pts) */}
                         <InsightsSection insights={data.insights} />
 
-                        {/* Key Operational Metrics - Compact Square Grid (4x2) */}
+                        {/* Key Operational Metrics - Compact Grid (4 cols x 2 rows) */}
                         <div>
                              <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
                                 <Activity className="h-5 w-5 mr-2 text-blue-600" />
                                 Key Metrics
                             </h2>
-                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
                                 {data.stats.map((stat, index) => (
                                     <StatCard key={index} stat={stat} />
                                 ))}
@@ -112,7 +112,7 @@ const App: React.FC = () => {
                         </div>
 
                         {/* RUBRIC: New Analytics & Graphs (30 pts) */}
-                        {/* Compact Row: Capital Allocation & Stock Levels (Square-ish Charts) */}
+                        {/* Row 1: Capital Distribution & Stock Levels (Compact) */}
                         <div>
                             <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
                                 <PieIcon className="h-5 w-5 mr-2 text-indigo-600" />
@@ -124,7 +124,7 @@ const App: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Analysis Row: Pareto & Orders Trend */}
+                        {/* Row 2: Performance Trends */}
                         <div>
                             <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center">
                                 <BarChart2 className="h-5 w-5 mr-2 text-emerald-600" />
@@ -136,7 +136,7 @@ const App: React.FC = () => {
                             </div>
                         </div>
 
-                        {/* Supply Chain Section */}
+                        {/* Row 3: Supply Chain */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                              <LeadTimeChart data={data.leadTimeData} />
                              <SupplierAssociationChart data={data.associationData} />

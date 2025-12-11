@@ -7,7 +7,6 @@ import {
   HospitalStat, 
   OrderTrendData, 
   InventoryLevelData, 
-  CompanyFact,
   PurchaseOrderWithDetails,
   AssociationDataPoint,
   ClusterGroup,
@@ -74,6 +73,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
     const pendingOrders = orders.filter(o => o.status === 'Pending' || o.status === 'Processing').length;
 
     const totalValue = medications.reduce((sum, m) => sum + (m.quantity_in_stock * m.priceperunit), 0);
+    // Updated to PHP
     const formattedValue = new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP', maximumFractionDigits: 0 }).format(totalValue);
 
     const today = new Date();
@@ -377,7 +377,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
       inventoryLevels,
       clusterAnalysis,
       associationData,
-      facts: [], // Using new Insights system instead
+      facts: [],
       recentOrders,
       lowStockItems,
       rawMedications: medications,
