@@ -85,27 +85,33 @@ export const StockChart: React.FC<{ data: DashboardData['inventoryLevels'] }> = 
 };
 
 export const SupplierAssociationChart: React.FC<{ data: DashboardData['associationData'] }> = ({ data }) => {
+  // Dynamic height: 40px per item to allow breathing room, minimum 320px
+  const chartHeight = Math.max(data.length * 40, 320);
+
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-6 flex-shrink-0">
          <div>
             <h3 className="text-lg font-semibold text-slate-900">Supplier Rules</h3>
-            <p className="text-sm text-slate-500">Order Outcome by Supplier</p>
+            <p className="text-sm text-slate-500">Order Outcome by Supplier (Complete List)</p>
          </div>
       </div>
-      <div className="h-80 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }} barSize={16}>
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-            <XAxis type="number" />
-            <YAxis dataKey="supplier" type="category" width={100} tick={{fill: '#475569', fontSize: 11, fontWeight: 500}} />
-            <Tooltip cursor={{fill: '#f8fafc'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-            <Legend wrapperStyle={{ paddingTop: '10px' }}/>
-            <Bar dataKey="delivered" stackId="a" fill="#10b981" name="Delivered" radius={[0,0,0,0]} />
-            <Bar dataKey="shipped" stackId="a" fill="#3b82f6" name="Shipped" radius={[0,0,0,0]} />
-            <Bar dataKey="pending" stackId="a" fill="#f59e0b" name="Pending" radius={[0,2,2,0]} />
-          </BarChart>
-        </ResponsiveContainer>
+      {/* Scrollable Container */}
+      <div className="h-80 w-full overflow-y-auto pr-2 custom-scrollbar relative">
+        <div style={{ height: `${chartHeight}px` }}>
+            <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }} barSize={16}>
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                <XAxis type="number" hide />
+                <YAxis dataKey="supplier" type="category" width={100} tick={{fill: '#475569', fontSize: 11, fontWeight: 500}} interval={0} />
+                <Tooltip cursor={{fill: '#f8fafc'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Legend wrapperStyle={{ paddingTop: '10px' }}/>
+                <Bar dataKey="delivered" stackId="a" fill="#10b981" name="Delivered" radius={[0,0,0,0]} />
+                <Bar dataKey="shipped" stackId="a" fill="#3b82f6" name="Shipped" radius={[0,0,0,0]} />
+                <Bar dataKey="pending" stackId="a" fill="#f59e0b" name="Pending" radius={[0,4,4,0]} />
+            </BarChart>
+            </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

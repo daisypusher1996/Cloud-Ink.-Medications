@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import StatCard from './components/StatCard';
@@ -52,19 +51,37 @@ const App: React.FC = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* Header Section */}
-        <div className="mb-6">
-            <h1 className="text-2xl font-bold text-slate-900">
-                {currentView === 'dashboard' && 'Executive Dashboard'}
-                {currentView === 'inventory' && 'Medication Database'}
-                {currentView === 'orders' && 'Purchase Orders'}
-            </h1>
-            <p className="mt-1 text-slate-500 text-sm">
-                {currentView === 'dashboard' && 'Strategic overview of pharmacy operations, financial efficiency, and supply chain risks.'}
-                {currentView === 'inventory' && 'Complete registry of pharmaceutical stock and batch details.'}
-                {currentView === 'orders' && 'Log of all procurement activities and supplier interactions.'}
-            </p>
-        </div>
+        {/* Header Section / Hero Banner */}
+        {currentView === 'dashboard' ? (
+             <div className="relative w-full h-72 mb-8 rounded-2xl overflow-hidden shadow-xl group">
+                <img 
+                  src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2670&auto=format&fit=crop" 
+                  alt="Cloud Ink Co. Hospital" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/40 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 p-6 md:p-10 w-full">
+                    <div className="flex items-center space-x-2 mb-3">
+                        <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">Cloud Ink Co.</span>
+                    </div>
+                    <h1 className="text-3xl md:text-5xl font-bold text-white mb-3 tracking-tight drop-shadow-sm">Medications Dashboard</h1>
+                    <p className="text-blue-100 max-w-2xl text-sm md:text-lg font-medium opacity-95 leading-relaxed drop-shadow-sm">
+                      Strategic overview of pharmacy operations, financial efficiency, and supply chain risks.
+                    </p>
+                </div>
+              </div>
+        ) : (
+            <div className="mb-6">
+                <h1 className="text-2xl font-bold text-slate-900">
+                    {currentView === 'inventory' && 'Medication Database'}
+                    {currentView === 'orders' && 'Purchase Orders'}
+                </h1>
+                <p className="mt-1 text-slate-500 text-sm">
+                    {currentView === 'inventory' && 'Complete registry of pharmaceutical stock and batch details.'}
+                    {currentView === 'orders' && 'Log of all procurement activities and supplier interactions.'}
+                </p>
+            </div>
+        )}
 
         {error && (
             <div className="mb-8 bg-red-50 border border-red-200 rounded-xl p-6 flex flex-col text-red-800">

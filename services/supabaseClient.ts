@@ -361,7 +361,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
             shipped: supplierStats[key].shipped,
             total: supplierStats[key].delivered + supplierStats[key].pending + supplierStats[key].shipped
         }))
-        .sort((a, b) => b.total - a.total).slice(0, 7);
+        .sort((a, b) => b.total - a.total); // Return ALL suppliers, removed slice(0,7)
 
     // --- Recent Orders ---
     const recentOrders: PurchaseOrderWithDetails[] = [...orders]
