@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import StatCard from './components/StatCard';
-import { OrdersChart, StockChart, SupplierAssociationChart, InventoryDistributionChart, ParetoChart, LeadTimeChart } from './components/Charts';
+import { OrdersChart, StockChart, SupplierAssociationChart, InventoryDistributionChart, InventoryHealthChart, LeadTimeChart } from './components/Charts';
 import ClusteringAnalysis from './components/ClusteringAnalysis';
 import InsightsSection from './components/InsightsSection';
 import Home from './components/Home';
@@ -183,7 +183,7 @@ const App: React.FC = () => {
                                   Performance Trends
                               </h2>
                               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                                  <ParetoChart data={data.paretoData} />
+                                  <InventoryHealthChart data={data.inventoryHealth} />
                                   <OrdersChart data={data.orderTrends} />
                               </div>
                           </div>

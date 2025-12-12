@@ -92,11 +92,11 @@ export interface ClusterGroup {
 }
 
 // Rubric: New Analytics Types
-export interface ParetoData {
-  name: string;
-  value: number; // Stock Value
-  cumulativePercentage: number;
-  category: 'A' | 'B' | 'C'; // A=Top 80% value, B=Next 15%, C=Bottom 5%
+export interface InventoryHealthData {
+  category: string;
+  critical: number; // Stock <= Reorder Level
+  good: number;     // Stock > Reorder && <= 3x Reorder
+  excess: number;   // Stock > 3x Reorder
 }
 
 export interface ScatterData {
@@ -148,7 +148,7 @@ export interface DashboardData {
     avgStock: number;
   };
   // New Rubric Data
-  paretoData: ParetoData[];
+  inventoryHealth: InventoryHealthData[]; // Replaces paretoData
   scatterData: ScatterData[];
   leadTimeData: LeadTimeData[];
   distributionData: DistributionData[];

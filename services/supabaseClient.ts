@@ -11,7 +11,7 @@ import {
   AssociationDataPoint,
   ClusterGroup,
   ClusterItem,
-  ParetoData,
+  InventoryHealthData,
   ScatterData,
   LeadTimeData,
   Insight,
@@ -170,7 +170,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
     // --- Charts: Stock Levels ---
     const inventoryLevels: InventoryLevelData[] = medications
       .sort((a, b) => (a.quantity_in_stock / (a.reorder_level || 1)) - (b.quantity_in_stock / (b.reorder_level || 1)))
-      .slice(0, 8)
+      .slice(0, 50) // Increased to 50 items for scrollable chart
       .map(m => ({
         name: m.medication_name,
         stock: m.quantity_in_stock,
@@ -237,24 +237,35 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
       value: distMap[k]
     })).sort((a,b) => b.value - a.value);
 
-    // --- RUBRIC: New Analytics 2 - ABC Analysis (Pareto) ---
-    // Sort by Value (Price * Stock)
-    const sortedByValue = [...enrichedMeds].sort((a, b) => b.stockValue - a.stockValue);
-    let cumulativeValue = 0;
-    const paretoData: ParetoData[] = sortedByValue.map((m, index) => {
-        cumulativeValue += m.stockValue;
-        const cumulativePercentage = (cumulativeValue / totalValue) * 100;
-        let category: 'A' | 'B' | 'C' = 'C';
-        if (cumulativePercentage <= 80) category = 'A';
-        else if (cumulativePercentage <= 95) category = 'B';
+    // --- RUBRIC: New Analytics 2 - Inventory Health Check (Replaces Pareto) ---
+    // Group by category, then count Critical (<= reorder), Good (> reorder && <= 3*reorder), Excess (> 3*reorder)
+    const healthMap: Record<string, { critical: number; good: number; excess: number }> = {};
+    
+    medications.forEach(m => {
+        const cat = m.formulation || 'Other';
+        if (!healthMap[cat]) healthMap[cat] = { critical: 0, good: 0, excess: 0 };
         
-        return {
-            name: m.medication_name,
-            value: m.stockValue,
-            cumulativePercentage,
-            category
-        };
-    }).slice(0, 15); // Top 15 for chart clarity
+        // Define Logic: 
+        // Critical: Stock is at or below reorder level
+        // Excess: Stock is more than 3x the reorder level (assuming 3x safety stock is max)
+        // Good: In between
+        const reorder = m.reorder_level || 1; // avoid division by zero
+        
+        if (m.quantity_in_stock <= m.reorder_level) {
+            healthMap[cat].critical++;
+        } else if (m.quantity_in_stock > (reorder * 3)) {
+            healthMap[cat].excess++;
+        } else {
+            healthMap[cat].good++;
+        }
+    });
+
+    const inventoryHealth: InventoryHealthData[] = Object.keys(healthMap).map(cat => ({
+        category: cat,
+        critical: healthMap[cat].critical,
+        good: healthMap[cat].good,
+        excess: healthMap[cat].excess
+    })).sort((a, b) => (b.critical + b.good + b.excess) - (a.critical + a.good + a.excess));
 
     // --- RUBRIC: New Analytics 3 - Supplier Lead Time ---
     const supplierLeadTimes: Record<string, { totalDays: number, count: number }> = {};
@@ -385,7 +396,7 @@ export const fetchDashboardData = async (): Promise<DashboardData> => {
         avgPrice: medications.length ? totalValue / medications.length : 0,
         avgStock: medications.length ? medications.reduce((sum, m) => sum + m.quantity_in_stock, 0) / medications.length : 0
       },
-      paretoData,
+      inventoryHealth, // Replaces paretoData
       scatterData,
       leadTimeData,
       distributionData,

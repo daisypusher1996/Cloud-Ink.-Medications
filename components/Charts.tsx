@@ -64,27 +64,32 @@ export const OrdersChart: React.FC<{ data: DashboardData['orderTrends'] }> = ({ 
 };
 
 export const StockChart: React.FC<{ data: DashboardData['inventoryLevels'] }> = ({ data }) => {
+  // Dynamic height: 40px per item to allow breathing room, minimum 320px
+  const chartHeight = Math.max(data.length * 40, 320);
+
   return (
-    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full flex flex-col">
+      <div className="flex items-center justify-between mb-6 flex-shrink-0">
          <div>
             <h3 className="text-lg font-semibold text-slate-900">Critical Stock Levels</h3>
-            <p className="text-sm text-slate-500">Items closest to reorder point</p>
+            <p className="text-sm text-slate-500">Items closest to reorder point (Top 50)</p>
          </div>
       </div>
-      <div className="h-80 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="vertical">
-            <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e2e8f0" />
-            <XAxis type="number" hide />
-            <YAxis dataKey="name" type="category" width={100} tick={{fill: '#475569', fontSize: 11, fontWeight: 500}} axisLine={false} tickLine={false} />
-            <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-            <Legend />
-            {/* Restored Green Bar Color */}
-            <Bar dataKey="stock" name="Current Stock" fill="#10b981" radius={[0, 4, 4, 0]} barSize={20} />
-            <Line dataKey="reorderLevel" name="Reorder Point" stroke="#ef4444" strokeWidth={2} type="monotone" dot={{r: 4}} />
-          </ComposedChart>
-        </ResponsiveContainer>
+      <div className="h-80 w-full overflow-y-auto pr-2 custom-scrollbar relative">
+        <div style={{ height: `${chartHeight}px` }}>
+            <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e2e8f0" />
+                <XAxis type="number" hide />
+                <YAxis dataKey="name" type="category" width={100} tick={{fill: '#475569', fontSize: 11, fontWeight: 500}} axisLine={false} tickLine={false} interval={0} />
+                <Tooltip cursor={{fill: '#f1f5f9'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Legend wrapperStyle={{ paddingTop: '10px' }}/>
+                {/* Restored Green Bar Color */}
+                <Bar dataKey="stock" name="Current Stock" fill="#10b981" radius={[0, 4, 4, 0]} barSize={20} />
+                <Line dataKey="reorderLevel" name="Reorder Point" stroke="#ef4444" strokeWidth={2} type="monotone" dot={{r: 4}} />
+            </ComposedChart>
+            </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
@@ -167,29 +172,28 @@ export const InventoryDistributionChart: React.FC<{ data: DashboardData['distrib
     );
 };
 
-// --- NEW RUBRIC CHART 2: Pareto Chart (ABC Analysis) ---
-export const ParetoChart: React.FC<{ data: DashboardData['paretoData'] }> = ({ data }) => {
+// --- NEW RUBRIC CHART 2: Inventory Health Chart (Replaces Pareto) ---
+export const InventoryHealthChart: React.FC<{ data: DashboardData['inventoryHealth'] }> = ({ data }) => {
     return (
         <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-sm border border-slate-100/50 h-full">
              <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h3 className="text-lg font-semibold text-slate-900">ABC Analysis (Pareto)</h3>
-                    <p className="text-sm text-slate-500">Value Concentration (80/20 Rule)</p>
+                    <h3 className="text-lg font-semibold text-slate-900">Inventory Health Check</h3>
+                    <p className="text-sm text-slate-500">Stock Status by Category</p>
                 </div>
             </div>
             <div className="h-80 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                    <ComposedChart data={data}>
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <XAxis dataKey="name" scale="band" hide />
-                        <YAxis yAxisId="left" label={{ value: 'Value (₱)', angle: -90, position: 'insideLeft' }} />
-                        <YAxis yAxisId="right" orientation="right" label={{ value: 'Cum. %', angle: 90, position: 'insideRight' }} />
-                        <Tooltip formatter={(value: number, name: string) => [name === 'Stock Value ($)' ? `₱${value.toLocaleString()}` : value, name === 'Stock Value ($)' ? 'Stock Value (₱)' : name]} />
+                    <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, left: 40, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
+                        <XAxis type="number" hide />
+                        <YAxis dataKey="category" type="category" width={100} tick={{fontSize: 11, fill: '#475569'}} interval={0} />
+                        <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}/>
                         <Legend />
-                        <Bar yAxisId="left" dataKey="value" barSize={20} fill="#8884d8" name="Stock Value (₱)" />
-                        <Line yAxisId="right" type="monotone" dataKey="cumulativePercentage" stroke="#ff7300" name="Cumulative %" dot={false} strokeWidth={2} />
-                        <ReferenceLine yAxisId="right" y={80} label="80% Cutoff" stroke="red" strokeDasharray="3 3" />
-                    </ComposedChart>
+                        <Bar dataKey="critical" name="Low Stock" stackId="a" fill="#ef4444" />
+                        <Bar dataKey="good" name="Optimal" stackId="a" fill="#10b981" />
+                        <Bar dataKey="excess" name="Overstock" stackId="a" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+                    </BarChart>
                 </ResponsiveContainer>
             </div>
         </div>

@@ -21,7 +21,7 @@ export const EMPTY_DASHBOARD_DATA: DashboardData = {
     avgPrice: 0,
     avgStock: 0
   },
-  paretoData: [],
+  inventoryHealth: [],
   scatterData: [],
   leadTimeData: [],
   distributionData: [],
