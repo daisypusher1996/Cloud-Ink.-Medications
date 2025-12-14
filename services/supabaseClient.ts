@@ -7,30 +7,76 @@ import {
   HospitalStat, 
   OrderTrendData, 
   InventoryLevelData, 
-  PurchaseOrderWithDetails,
-  AssociationDataPoint,
-  ClusterGroup,
-  ClusterItem,
-  InventoryHealthData,
-  ScatterData,
-  LeadTimeData,
-  Insight,
-  DistributionData
+  PurchaseOrderWithDetails, 
+  AssociationDataPoint, 
+  ClusterGroup, 
+  ClusterItem, 
+  InventoryHealthData, 
+  ScatterData, 
+  LeadTimeData, 
+  Insight, 
+  DistributionData 
 } from '../types';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
+ * Helper to fetch ALL rows from a table by paginating requests.
+ * Supabase API often limits responses to 1000 rows per request.
+ * This function iterates until all data is retrieved.
+ */
+const fetchAllRows = async (tableName: string) => {
+  let allData: any[] = [];
+  let from = 0;
+  const pageSize = 1000;
+  let hasMore = true;
+  let error = null;
+
+  while (hasMore) {
+    const to = from + pageSize - 1;
+    const { data, error: fetchError } = await supabase
+      .from(tableName)
+      .select('*')
+      .range(from, to);
+
+    if (fetchError) {
+      error = fetchError;
+      hasMore = false;
+      // If it's the first page and we error, return the error.
+      // If we have partial data, we might want to return what we have, but standard behavior is to fail or return the error.
+      // Here we return null data to signal failure for this table name attempt.
+      return { data: null, error: fetchError };
+    }
+
+    if (data) {
+      allData = [...allData, ...data];
+      
+      // Check if we reached the end
+      if (data.length < pageSize) {
+        hasMore = false;
+      } else {
+        from += pageSize;
+      }
+    } else {
+      hasMore = false;
+    }
+  }
+
+  return { data: allData, error: null };
+};
+
+/**
  * Helper to try fetching from a table with multiple potential naming conventions.
+ * Uses fetchAllRows to ensure complete dataset retrieval (>1000 rows).
  */
 const smartFetch = async (tableName: string, variations: string[]) => {
-  let result = await supabase.from(tableName).select('*');
+  let result = await fetchAllRows(tableName);
   if (!result.error) return result;
 
   if (result.error && result.error.code === '42P01') {
     console.warn(`Table '${tableName}' not found, trying variations...`);
     for (const variation of variations) {
-      const vResult = await supabase.from(variation).select('*');
+      const vResult = await fetchAllRows(variation);
       if (!vResult.error) {
         console.log(`Found table data in '${variation}'`);
         return vResult;
